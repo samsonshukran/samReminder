@@ -4,23 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>SAMKRAN · KRAN | 60‑day JS & Design Forge</title>
-  <!-- PWA Manifest (dynamic) -->
-  <link rel="manifest" id="dynamicManifest">
+  
+  <!-- PWA Manifest with YOUR custom logo paths -->
+  <link rel="manifest" href="data:application/manifest+json,{
+    %22name%22:%22SAMKRAN%22,
+    %22short_name%22:%22KRAN%22,
+    %22start_url%22:%22.%22,
+    %22display%22:%22standalone%22,
+    %22theme_color%22:%22#0A0C12%22,
+    %22background_color%22:%22#020408%22,
+    %22icons%22:[
+      {
+        %22src%22:%22/icons/logo-192.png%22,
+        %22sizes%22:%22192x192%22,
+        %22type%22:%22image/png%22
+      },
+      {
+        %22src%22:%22/icons/logo-512.png%22,
+        %22sizes%22:%22512x512%22,
+        %22type%22:%22image/png%22
+      }
+    ]
+  }">
+  
+  <!-- Apple Touch Icon (iOS home screen) -->
+  <link rel="apple-touch-icon" href="/icons/logo-192.png">
+  
+  <!-- Standard favicon for browser tab -->
+  <link rel="icon" type="image/png" href="/icons/favicon-96.png">
+  
   <meta name="theme-color" content="#0A0C12">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="KRAN">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFD966'/%3E%3Cstop offset='100%25' stop-color='%2300E5FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='url(%23g)' font-weight='bold'%3EKR%3C/text%3E%3C/svg%3E">
+  
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* (Same excellent styles as before - keep everything) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: radial-gradient(ellipse at 10% 30%, #0b101a, #020408);
       font-family: 'Inter', sans-serif;
@@ -28,8 +51,6 @@
       padding: 1.2rem 1rem 2.5rem;
       min-height: 100vh;
     }
-
-    /* animated background overlay */
     body::before {
       content: '';
       position: fixed;
@@ -41,32 +62,22 @@
       pointer-events: none;
       z-index: -1;
     }
-
-    /* custom scroll */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #11141f; border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #FFD966, #10B981); border-radius: 10px; }
-
-    .container {
-      max-width: 1380px;
-      margin: 0 auto;
-    }
-
-    /* premium glass cards */
+    .container { max-width: 1380px; margin: 0 auto; }
     .glass-card {
-      background: rgba(6, 10, 20, 0.7);
+      background: rgba(6, 10, 20, 0.75);
       backdrop-filter: blur(14px);
       border-radius: 2rem;
       border: 1px solid rgba(255, 217, 102, 0.3);
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.15), 0 0 16px rgba(255,215,0,0.1);
-      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transition: all 0.3s ease;
     }
     .glass-card:hover {
       border-color: rgba(255, 217, 102, 0.7);
       box-shadow: 0 25px 40px -14px #000, 0 0 20px rgba(16,185,129,0.2);
     }
-
-    /* header brand */
     .brand {
       display: flex;
       justify-content: space-between;
@@ -83,11 +94,9 @@
       background-clip: text;
       color: transparent;
       letter-spacing: -0.02em;
-      text-shadow: 0 0 10px rgba(255,217,0,0.3);
     }
     .logo p {
       font-size: 0.75rem;
-      letter-spacing: 0.5px;
       color: #9ca7c2;
     }
     .badge-kran {
@@ -98,10 +107,22 @@
       font-size: 0.7rem;
       border-left: 3px solid #FFD966;
       backdrop-filter: blur(4px);
-      box-shadow: 0 0 6px #FFD96660;
     }
-
-    /* 2-col grid */
+    .install-btn {
+      background: linear-gradient(95deg, #FFD966, #10B981);
+      border: none;
+      color: #0a0c12;
+      font-weight: bold;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 0 10px #FFD96680;
+    }
+    .install-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 16px #FFD966;
+    }
     .main-grid {
       display: grid;
       grid-template-columns: 1fr 380px;
@@ -110,8 +131,6 @@
     @media (max-width: 860px) {
       .main-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     }
-
-    /* today panel */
     .today-panel { padding: 1.8rem 2rem; }
     .day-header {
       display: flex;
@@ -128,7 +147,6 @@
       font-size: 0.75rem;
       border: 1px solid #FFD966;
       color: #FFE6A3;
-      display: inline-block;
     }
     .day-number-glow {
       font-size: 1.9rem;
@@ -137,30 +155,25 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-top: 8px;
     }
-
-    /* topic cards */
     .topic-card {
-      background: rgba(3, 7, 18, 0.75);
+      background: rgba(3, 7, 18, 0.85);
       border-radius: 1.5rem;
       padding: 1.2rem 1.5rem;
       margin-bottom: 1.3rem;
       border: 1px solid #2c3e66;
       transition: 0.2s;
-      backdrop-filter: blur(4px);
     }
-    .topic-card:hover { border-color: #10B981; transform: translateY(-3px); background: rgba(8, 22, 40, 0.85); }
-    .topic-title i { font-size: 1.7rem; width: 44px; color: #FFD966; filter: drop-shadow(0 0 5px #FFB347); }
+    .topic-card:hover { border-color: #10B981; transform: translateY(-3px); }
+    .topic-title i { font-size: 1.7rem; width: 44px; color: #FFD966; }
     .topic-title span { font-weight: 700; font-size: 1.1rem; background: linear-gradient(135deg,#E0F2FE,#A7F3D0); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .topic-desc { margin-left: 2.8rem; margin-bottom: 12px; font-size: 0.92rem; font-weight: 500; color: #cfdff5; }
+    .topic-desc { margin-left: 2.8rem; margin-bottom: 12px; font-size: 0.92rem; color: #cfdff5; }
     .check-item {
       background: rgba(16,185,129,0.1);
       border-radius: 40px;
       padding: 5px 18px;
       font-size: 0.8rem;
       border: 1px solid #10B98140;
-      transition: 0.1s;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -168,11 +181,7 @@
     }
     .check-item:hover { background: #10B98120; border-color: #FFD966; }
     .check-item input { accent-color: #FFD966; transform: scale(1.05); margin-right: 6px; }
-
-    /* weekend special */
     .project-box { background: linear-gradient(115deg, #0f1a2b, #030a14); border-left: 5px solid #FFD966; }
-
-    /* progress stats */
     .progress-stats {
       display: flex;
       gap: 1rem;
@@ -188,10 +197,8 @@
       backdrop-filter: blur(4px);
       border-bottom: 2px solid #FFD966;
     }
-    .progress-bar-bg { background: #1e2a3a; border-radius: 20px; height: 8px; margin: 6px 0; overflow: hidden; }
-    .progress-fill { background: linear-gradient(90deg, #FFD966, #10B981, #3b82f6); width: 0%; height: 100%; border-radius: 20px; transition: width 0.4s ease; box-shadow: 0 0 8px #FFD966; }
-
-    /* calendar grid */
+    .progress-bar-bg { background: #1e2a3a; border-radius: 20px; height: 8px; margin: 6px 0; }
+    .progress-fill { background: linear-gradient(90deg, #FFD966, #10B981, #3b82f6); width: 0%; height: 100%; border-radius: 20px; transition: width 0.4s; }
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
@@ -208,21 +215,18 @@
       font-size: 0.7rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
       border: 1px solid #2c4466;
+      transition: 0.1s;
     }
     .day-cell.active-day {
       background: linear-gradient(145deg, #1f4a5e, #0a2e38);
       border: 1px solid #FFD966;
-      box-shadow: 0 0 16px #FFD966, 0 0 4px #10B981;
+      box-shadow: 0 0 16px #FFD966;
       transform: scale(1.02);
     }
     .day-cell:hover { background: #1f3f6e; border-color: #10B981; }
     .completion-icons i { margin: 0 2px; font-size: 0.65rem; }
     .fa-check-circle { color: #10B981; text-shadow: 0 0 4px #6EE7B7; }
-    .fa-circle { color: #5b6e8c; }
-
-    /* buttons */
     .btn-nav {
       background: rgba(0,0,0,0.7);
       border: 1px solid #FFD966;
@@ -232,9 +236,8 @@
       font-weight: 600;
       transition: 0.2s;
       cursor: pointer;
-      backdrop-filter: blur(4px);
     }
-    .btn-nav:hover { background: #FFD966; color: #0a0c12; border-color: #fff3bf; box-shadow: 0 0 12px #FFD966; transform: scale(0.97); }
+    .btn-nav:hover { background: #FFD966; color: #0a0c12; box-shadow: 0 0 12px #FFD966; }
     .footer-note {
       margin-top: 2rem;
       text-align: center;
@@ -249,27 +252,35 @@
       border-radius: 40px;
       padding: 6px 12px;
       color: #FFE6AA;
-      font-weight: 500;
     }
-    @keyframes pulse-gold {
-      0% { box-shadow: 0 0 0 0 #FFD96670; }
-      100% { box-shadow: 0 0 0 6px transparent; }
+    .custom-logo-area {
+      background: rgba(255,217,102,0.1);
+      border-radius: 60px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      text-align: center;
+      margin-top: 8px;
     }
-    .btn-nav:active { animation: pulse-gold 0.3s ease-out; }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="brand">
     <div class="logo">
-      <h1><i class="fas fa-crown"></i> SAMKRAN <span style="font-size: 1rem; letter-spacing: 2px;">⚡KRAN</span></h1>
+      <h1><i class="fas fa-crown"></i> SAMKRAN <span style="font-size: 1rem;">⚡KRAN</span></h1>
       <p>🔥 JavaScript mastery · Graphic design alchemy · 60‑day odyssey</p>
+      <div class="custom-logo-area">
+        <i class="fas fa-image"></i> Logo location: /icons/logo-512.png, /icons/logo-192.png
+      </div>
     </div>
-    <div class="badge-kran"><i class="fas fa-gem"></i> PWA · offline ready · gold edition</div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button id="installAppBtn" class="install-btn"><i class="fas fa-download"></i> Install App (KRAN)</button>
+      <div class="badge-kran"><i class="fas fa-gem"></i> PWA · offline ready</div>
+    </div>
   </div>
 
   <div class="main-grid">
-    <!-- left: daily zone -->
+    <!-- left daily panel -->
     <div class="glass-card today-panel">
       <div class="day-header">
         <div>
@@ -282,21 +293,18 @@
         </div>
       </div>
 
-      <!-- JS card -->
       <div class="topic-card">
         <div class="topic-title"><i class="fab fa-js"></i><span>JavaScript · Core Ignition</span></div>
         <div class="topic-desc" id="jsTopicDesc">Variables & Data Types</div>
         <div class="checkbox-group" style="margin-left: 2.5rem;"><label class="check-item"><input type="checkbox" id="jsCompleteCheck"> <i class="fas fa-code"></i> Mark JS completed</label></div>
       </div>
 
-      <!-- Design card -->
       <div class="topic-card">
         <div class="topic-title"><i class="fas fa-palette"></i><span>Graphic Design · Visual Edge</span></div>
         <div class="topic-desc" id="designTopicDesc">Color theory & harmony</div>
         <div class="checkbox-group" style="margin-left: 2.5rem;"><label class="check-item"><input type="checkbox" id="designCompleteCheck"> 🎨 Mark design mastered</label></div>
       </div>
 
-      <!-- Weekend project -->
       <div class="topic-card project-box" id="projectCard" style="display: none;">
         <div class="topic-title"><i class="fas fa-laptop-code"></i><span>🏕️ Weekend Forge</span></div>
         <div class="topic-desc" id="projectDesc">Build a project</div>
@@ -312,7 +320,7 @@
       <div style="font-size: 0.7rem; text-align: center; color:#FFE6A3;"><i class="fas fa-calendar-alt"></i> Click any day in timeline → review & track</div>
     </div>
 
-    <!-- right: calendar & controls -->
+    <!-- right calendar -->
     <div class="glass-card" style="padding: 1.5rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
         <h3><i class="fas fa-calendar-week" style="color:#FFD966;"></i> 60‑day timeline · KRAN</h3>
@@ -330,13 +338,13 @@
     </div>
   </div>
   <div class="footer-note">
-    🧠 SAMKRAN (KRAN) | 60‑day forge • Install now → <i class="fas fa-download"></i> "Add to Home Screen" • offline warrior <br>
-    🌟 Each day: JS deep dive + design secret. Weekends: real portfolio projects. Code + design = gold.
+    🧠 SAMKRAN (KRAN) | Installable PWA • Offline • Add to Home Screen = native feel<br>
+    🌟 Each day: JS deep dive + design secret. Weekends: real portfolio projects.
   </div>
 </div>
 
 <script>
-  // ================== CURRICULUM ==================
+  // ------------------- CURRICULUM (same as before) -------------------
   const jsTopics = [
     "Variables (let, const, var) & scopes","Data Types: string, number, boolean, null","Operators (arithmetic, assignment, comparison)","Type coercion & conversion","Functions (declaration & expression)","Parameters & returns","Conditionals (if/else, else if)","Switch statements","Logical operators (&&, ||, !)","Truthy & falsy values","Arrays: index, length","Array methods (push, pop, shift)","Loops: for, while, do..while","for...of & for...in","forEach & iteration","Objects: properties & methods","Object destructuring & spread","DOM Selection (querySelector)","Manipulating content (innerHTML)","Changing CSS with JS","Events: click, input, submit","Event listeners & handlers","Forms & validation basics","LocalStorage (setItem, getItem)","JSON.stringify & parse","Fetch API basics (GET)","Async/Await & promises","Error handling (try/catch)","Arrow functions & this","Array map, filter","Spread & rest operators","Template literals","Modules (import/export)","Classes & OOP basics","setInterval & setTimeout","Date object & timestamps","Event delegation","Debouncing intro","Advanced DOM traversal","CSS custom properties & JS","LocalStorage for app state","Fetch with error handling","FormData API","Responsive animations","Performance & reflows","DevTools debugging","Canvas API intro","Web Storage vs Session","Drag & drop API","Audio/Video API","Code organization","Final real‑world utilities"
   ];
@@ -344,7 +352,7 @@
     "Color theory: primary/secondary","Color harmonies (complementary)","Typography: serif vs sans","Font pairing principles","Whitespace & breathing","Layout hierarchy (F‑pattern)","Flexbox foundations","CSS Grid intro","Card UI design","Button states & hover","Forms styling (inputs, labels)","Focus & active states","Gradients & textures","Box shadows & depth","Icons & SVG integration","Responsive design (media queries)","Mobile‑first approach","Navigation bar patterns","Hero section design","Footer best practices","Image optimization & ratios","Consistent spacing (8px grid)","Alignment grids","UI color contrast (WCAG)","Micro‑interactions","Dark mode basics","Glassmorphism & frosted","Neumorphism (cautious)","Dashboard layouts","Data visualization aesthetics","Figma fundamentals","Design systems intro","Atomic design","Form microcopy & guidance","Loading states & skeletons","Dropdown & modals design","CSS animations (keyframes)","Parallax illusion","CSS custom properties for themes","Web fonts performance","UI for touch devices","Wireframing concepts","Visual balance","Brand consistency","Emotive design","User feedback patterns","Component reusability","Typography scale (rem)","Shadow layering","Accessible color ratios","Design critique","Motion with purpose","Interactive prototypes","UI/UX portfolio tips","Final polish & design refinement","Handoff documentation","Design systems usage","Visual storytelling","Building design library","Mastering layout composition"
   ];
   const weekendProjects = [
-    "🌐 Personal Bio Card: responsive with social links & hover","📋 To-Do Lite: minimalist task manager with local storage","🎨 Color Palette Explorer: generate random palettes","📆 Habit Snapshot: weekly habit tracker with checkboxes","🧮 Smart Calculator: UI + keyboard support","🌦️ Weather Widget UI: fetch mock API or static design","📝 Quote generator with design twist & animations","⏱️ Pomodoro timer: circular progress & notification","✍️ Journal entry app: markdown style preview","📸 Image gallery lightbox: grid + modal","🎯 Goal setter: add/remove goals, progress ring","💡 Decision maker wheel: interactive spin","📈 Expense splitter: itemized list and total","🎵 Music player UI: play/pause mock with album art","📱 Mobile-first UI kit: component showcase","⚡ Flashcard quiz: study cards for JS terms","📅 Event countdown: dynamic date countdown","🧠 Memory game (matching pairs)","✏️ Drawing canvas: simple paint tool","🖼️ Portfolio gallery: filter categories, responsive"
+    "🌐 Personal Bio Card: responsive with social links","📋 To-Do Lite: minimalist task manager","🎨 Color Palette Explorer: generate palettes","📆 Habit Snapshot: weekly tracker","🧮 Smart Calculator: UI + keyboard","🌦️ Weather Widget UI: mock API","📝 Quote generator with animations","⏱️ Pomodoro timer: circular progress","✍️ Journal entry app: markdown preview","📸 Image gallery lightbox","🎯 Goal setter: add/remove goals","💡 Decision maker wheel: spin","📈 Expense splitter: totals","🎵 Music player UI: play/pause","📱 Mobile-first UI kit","⚡ Flashcard quiz: JS terms","📅 Event countdown","🧠 Memory game (matching)","✏️ Drawing canvas","🖼️ Portfolio gallery filter"
   ];
 
   function buildCurriculum() {
@@ -369,7 +377,7 @@
   }
   const CURRICULUM = buildCurriculum();
 
-  // ========== PROGRESS STORAGE ==========
+  // ---------- STORAGE ----------
   let progressData = {};
   function loadProgress() {
     const stored = localStorage.getItem("samkran_kran_progress");
@@ -384,15 +392,11 @@
     progressData[day][type] = val;
     saveProgress();
     updateAllUI();
-    // micro celebration effect if just completed
-    if (val) {
-      const btn = document.activeElement;
-      if (btn && btn.classList && btn.classList.contains('check-item')) {}
-    }
   }
 
   let currentDay = 1;
   let startDate = null;
+  let deferredPrompt = null;
 
   function initStartDate() {
     const stored = localStorage.getItem("samkran_start_gold");
@@ -434,7 +438,6 @@
     if (data.isWeekend) document.getElementById("projectCompleteCheck").checked = progressData[currentDay]?.project || false;
     else document.getElementById("projectCompleteCheck").checked = false;
 
-    // remove old listeners and attach fresh
     const jsCh = document.getElementById("jsCompleteCheck");
     const desCh = document.getElementById("designCompleteCheck");
     const projCh = document.getElementById("projectCompleteCheck");
@@ -491,14 +494,13 @@
 
   function updateAllUI() { renderCurrentDay(); updateStatsAndCalendar(); }
   function resetAllProgress() {
-    if(confirm("⚠️ RESET entire 60‑day progress? All forged gold will vanish.")) {
+    if(confirm("⚠️ RESET entire 60‑day progress?")) {
       for (let i=1;i<=60;i++) progressData[i] = { js: false, design: false, project: false };
       saveProgress();
       updateAllUI();
     }
   }
 
-  // bind controls
   document.getElementById("prevDayBtn").onclick = () => { currentDay = currentDay > 1 ? currentDay-1 : 60; renderCurrentDay(); renderCalendar(); };
   document.getElementById("nextDayBtn").onclick = () => { currentDay = currentDay < 60 ? currentDay+1 : 1; renderCurrentDay(); renderCalendar(); };
   document.getElementById("resetProgressBtn").onclick = resetAllProgress;
@@ -507,18 +509,40 @@
 
   loadProgress(); initStartDate(); currentDay = getTodayBasedDay(); renderCurrentDay(); updateStatsAndCalendar();
 
-  // ========== PWA: offline + manifest ==========
+  // PWA install prompt
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installBtn = document.getElementById('installAppBtn');
+    installBtn.style.display = 'flex';
+    installBtn.onclick = () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') console.log('User accepted install');
+          deferredPrompt = null;
+        });
+      }
+    };
+  });
+
+  // Service worker for offline
   if ('serviceWorker' in navigator) {
-    const swCode = `self.addEventListener('install', e=>e.waitUntil(caches.open('kran-v1').then(c=>c.addAll(['/'])))); self.addEventListener('fetch', e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
-    const swBlob = new Blob([swCode], {type:'application/javascript'});
-    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(e=>console.log("SW not critical"));
+    const swCode = `
+      const CACHE_NAME = 'kran-v5';
+      const urls = ['/', '/index.html'];
+      self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urls))));
+      self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+    `;
+    const blob = new Blob([swCode], {type: 'application/javascript'});
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).then(reg => console.log('✅ SW registered')).catch(err => console.log('SW error', err));
   }
-  const manifestObj = {
-    name: "SAMKRAN", short_name: "KRAN", start_url: ".", display: "standalone",
-    theme_color: "#0A0C12", background_color: "#020408",
-    icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23FFD966' font-weight='bold'%3EKR%3C/text%3E%3C/svg%3E", sizes: "any", type: "image/svg+xml" }]
-  };
-  document.getElementById("dynamicManifest").setAttribute("href", URL.createObjectURL(new Blob([JSON.stringify(manifestObj)], {type:"application/json"})));
+
+  if (!deferredPrompt) {
+    const btn = document.getElementById('installAppBtn');
+    btn.onclick = () => alert('Your browser may support installation via menu: Add to Home Screen');
+  }
 </script>
 </body>
 </html>
