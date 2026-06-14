@@ -42,7 +42,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* (Same excellent styles as before - keep everything) */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: radial-gradient(ellipse at 10% 30%, #0b101a, #020408);
@@ -253,14 +252,6 @@
       padding: 6px 12px;
       color: #FFE6AA;
     }
-    .custom-logo-area {
-      background: rgba(255,217,102,0.1);
-      border-radius: 60px;
-      padding: 4px 12px;
-      font-size: 0.7rem;
-      text-align: center;
-      margin-top: 8px;
-    }
   </style>
 </head>
 <body>
@@ -269,9 +260,6 @@
     <div class="logo">
       <h1><i class="fas fa-crown"></i> SAMKRAN <span style="font-size: 1rem;">⚡KRAN</span></h1>
       <p>🔥 JavaScript mastery · Graphic design alchemy · 60‑day odyssey</p>
-      <div class="custom-logo-area">
-        <i class="fas fa-image"></i> Logo location: /icons/logo-512.png, /icons/logo-192.png
-      </div>
     </div>
     <div style="display: flex; gap: 12px; align-items: center;">
       <button id="installAppBtn" class="install-btn"><i class="fas fa-download"></i> Install App (KRAN)</button>
@@ -344,7 +332,7 @@
 </div>
 
 <script>
-  // ------------------- CURRICULUM (same as before) -------------------
+  // ------------------- CURRICULUM -------------------
   const jsTopics = [
     "Variables (let, const, var) & scopes","Data Types: string, number, boolean, null","Operators (arithmetic, assignment, comparison)","Type coercion & conversion","Functions (declaration & expression)","Parameters & returns","Conditionals (if/else, else if)","Switch statements","Logical operators (&&, ||, !)","Truthy & falsy values","Arrays: index, length","Array methods (push, pop, shift)","Loops: for, while, do..while","for...of & for...in","forEach & iteration","Objects: properties & methods","Object destructuring & spread","DOM Selection (querySelector)","Manipulating content (innerHTML)","Changing CSS with JS","Events: click, input, submit","Event listeners & handlers","Forms & validation basics","LocalStorage (setItem, getItem)","JSON.stringify & parse","Fetch API basics (GET)","Async/Await & promises","Error handling (try/catch)","Arrow functions & this","Array map, filter","Spread & rest operators","Template literals","Modules (import/export)","Classes & OOP basics","setInterval & setTimeout","Date object & timestamps","Event delegation","Debouncing intro","Advanced DOM traversal","CSS custom properties & JS","LocalStorage for app state","Fetch with error handling","FormData API","Responsive animations","Performance & reflows","DevTools debugging","Canvas API intro","Web Storage vs Session","Drag & drop API","Audio/Video API","Code organization","Final real‑world utilities"
   ];
