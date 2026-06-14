@@ -5,18 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>SAMKRAN · KRAN | 60‑day JS & Design Forge</title>
   
-  <!-- Dynamically create manifest.json (in-memory) for better compatibility -->
-  <link rel="manifest" id="dynamicManifest">
+  <!-- Link to physical manifest.json -->
+  <link rel="manifest" href="manifest.json">
   
   <meta name="theme-color" content="#0A0C12">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="KRAN">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23000'/%3E%3Ctext x='90' y='130' font-size='90' text-anchor='middle' fill='%23FFD966' font-weight='bold'%3EKR%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="icons/logo-192.png">
+  <link rel="icon" type="image/png" href="icons/favicon-96.png">
   
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -252,7 +254,6 @@
   </div>
 
   <div class="main-grid">
-    <!-- left daily panel -->
     <div class="glass-card today-panel">
       <div class="day-header">
         <div>
@@ -290,14 +291,11 @@
         <div class="stat-card"><span>🛠️ Legendary builds</span><div class="progress-bar-bg"><div class="progress-fill" id="projectProgressFill"></div></div><span id="projectCountText">0/20</span></div>
       </div>
       <div style="font-size: 0.7rem; text-align: center; color:#FFE6A3;"><i class="fas fa-calendar-alt"></i> Click any day in timeline → review & track</div>
-      
-      <!-- Installation help -->
       <div class="install-guide">
-        <i class="fas fa-info-circle"></i> <strong>Installation help:</strong> If the "Install App" button doesn't work, tap the browser menu (⋮) and select <strong>"Install app" / "Add to Home Screen"</strong>. For iOS, use the Share icon → "Add to Home Screen".
+        <i class="fas fa-info-circle"></i> <strong>Installation:</strong> Use the browser menu → "Install app" / "Add to Home Screen". Works best over HTTPS.
       </div>
     </div>
 
-    <!-- right calendar -->
     <div class="glass-card" style="padding: 1.5rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
         <h3><i class="fas fa-calendar-week" style="color:#FFD966;"></i> 60‑day timeline · KRAN</h3>
@@ -321,7 +319,7 @@
 </div>
 
 <script>
-  // ------------------- CURRICULUM -------------------
+  // ---------- CURRICULUM (same rich content as before) ----------
   const jsTopics = [
     "Variables (let, const, var) & scopes","Data Types: string, number, boolean, null","Operators (arithmetic, assignment, comparison)","Type coercion & conversion","Functions (declaration & expression)","Parameters & returns","Conditionals (if/else, else if)","Switch statements","Logical operators (&&, ||, !)","Truthy & falsy values","Arrays: index, length","Array methods (push, pop, shift)","Loops: for, while, do..while","for...of & for...in","forEach & iteration","Objects: properties & methods","Object destructuring & spread","DOM Selection (querySelector)","Manipulating content (innerHTML)","Changing CSS with JS","Events: click, input, submit","Event listeners & handlers","Forms & validation basics","LocalStorage (setItem, getItem)","JSON.stringify & parse","Fetch API basics (GET)","Async/Await & promises","Error handling (try/catch)","Arrow functions & this","Array map, filter","Spread & rest operators","Template literals","Modules (import/export)","Classes & OOP basics","setInterval & setTimeout","Date object & timestamps","Event delegation","Debouncing intro","Advanced DOM traversal","CSS custom properties & JS","LocalStorage for app state","Fetch with error handling","FormData API","Responsive animations","Performance & reflows","DevTools debugging","Canvas API intro","Web Storage vs Session","Drag & drop API","Audio/Video API","Code organization","Final real‑world utilities"
   ];
@@ -486,66 +484,31 @@
 
   loadProgress(); initStartDate(); currentDay = getTodayBasedDay(); renderCurrentDay(); updateStatsAndCalendar();
 
-  // ========== PWA INSTALL PROMPT & SERVICE WORKER ==========
-  // Create a proper manifest blob
-  const manifestObj = {
-    name: "SAMKRAN",
-    short_name: "KRAN",
-    start_url: ".",
-    display: "standalone",
-    theme_color: "#0A0C12",
-    background_color: "#020408",
-    icons: [
-      { src: "/icons/logo-192.png", sizes: "192x192", type: "image/png" },
-      { src: "/icons/logo-512.png", sizes: "512x512", type: "image/png" }
-    ]
-  };
-  const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
-  const manifestURL = URL.createObjectURL(manifestBlob);
-  document.getElementById("dynamicManifest").setAttribute("href", manifestURL);
-
-  // Service worker (caches only if HTTPS or localhost)
-  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-    const swCode = `
-      const CACHE_NAME = 'kran-v6';
-      const urlsToCache = ['/', '/index.html'];
-      self.addEventListener('install', event => {
-        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
-        self.skipWaiting();
-      });
-      self.addEventListener('fetch', event => {
-        event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
-      });
-    `;
-    const swBlob = new Blob([swCode], {type: 'application/javascript'});
-    const swUrl = URL.createObjectURL(swBlob);
-    navigator.serviceWorker.register(swUrl).then(reg => console.log('✅ Service Worker registered')).catch(err => console.warn('SW registration failed:', err));
+  // ========== PWA REGISTRATION (using physical files) ==========
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
+    navigator.serviceWorker.register("./sw.js")
+      .then(reg => console.log("✅ Service Worker registered", reg))
+      .catch(err => console.warn("❌ SW registration failed", err));
   } else {
-    console.log('Service Worker not supported or not secure context');
+    console.log("⚠️ PWA requires HTTPS or localhost. Install from a hosted URL.");
   }
 
-  // Install button logic
-  window.addEventListener('beforeinstallprompt', (e) => {
+  // Install button fallback
+  window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    const installBtn = document.getElementById('installAppBtn');
-    installBtn.style.display = 'flex';
-    installBtn.onclick = () => {
+    const btn = document.getElementById("installAppBtn");
+    btn.onclick = () => {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') console.log('User accepted install');
-          deferredPrompt = null;
-        });
+        deferredPrompt.userChoice.then(() => deferredPrompt = null);
       }
     };
   });
 
-  // Fallback: if beforeinstallprompt never fires (e.g., iOS or already installed), show manual instructions
   if (!deferredPrompt) {
-    const installBtn = document.getElementById('installAppBtn');
-    installBtn.onclick = () => {
-      alert('To install on Android: tap browser menu → "Install app".\nOn iOS: tap Share icon → "Add to Home Screen".');
+    document.getElementById("installAppBtn").onclick = () => {
+      alert("To install: use browser menu → 'Install app' / 'Add to Home Screen'.\nFor best results, open from HTTPS (GitHub Pages, Netlify, Vercel).");
     };
   }
 </script>
