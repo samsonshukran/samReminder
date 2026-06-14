@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>SAMKRAN · KRAN | 60‑day JS & Design Forge</title>
   
-  <!-- Link to physical manifest.json -->
-  <link rel="manifest" href="manifest.json">
-  
+  <!-- PWA manifest -->
+  <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0A0C12">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="KRAN">
-  <link rel="apple-touch-icon" href="icons/logo-192.png">
-  <link rel="icon" type="image/png" href="icons/favicon-96.png">
+  <link rel="apple-touch-icon" href="./icons/logo-192.png">
+  <link rel="icon" type="image/png" href="./icons/favicon-96.png">
   
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -319,7 +319,7 @@
 </div>
 
 <script>
-  // ---------- CURRICULUM (same rich content as before) ----------
+  // ---------- CURRICULUM (full 60 days) ----------
   const jsTopics = [
     "Variables (let, const, var) & scopes","Data Types: string, number, boolean, null","Operators (arithmetic, assignment, comparison)","Type coercion & conversion","Functions (declaration & expression)","Parameters & returns","Conditionals (if/else, else if)","Switch statements","Logical operators (&&, ||, !)","Truthy & falsy values","Arrays: index, length","Array methods (push, pop, shift)","Loops: for, while, do..while","for...of & for...in","forEach & iteration","Objects: properties & methods","Object destructuring & spread","DOM Selection (querySelector)","Manipulating content (innerHTML)","Changing CSS with JS","Events: click, input, submit","Event listeners & handlers","Forms & validation basics","LocalStorage (setItem, getItem)","JSON.stringify & parse","Fetch API basics (GET)","Async/Await & promises","Error handling (try/catch)","Arrow functions & this","Array map, filter","Spread & rest operators","Template literals","Modules (import/export)","Classes & OOP basics","setInterval & setTimeout","Date object & timestamps","Event delegation","Debouncing intro","Advanced DOM traversal","CSS custom properties & JS","LocalStorage for app state","Fetch with error handling","FormData API","Responsive animations","Performance & reflows","DevTools debugging","Canvas API intro","Web Storage vs Session","Drag & drop API","Audio/Video API","Code organization","Final real‑world utilities"
   ];
@@ -484,16 +484,18 @@
 
   loadProgress(); initStartDate(); currentDay = getTodayBasedDay(); renderCurrentDay(); updateStatsAndCalendar();
 
-  // ========== PWA REGISTRATION (using physical files) ==========
+  // ========== PWA: register physical service worker ==========
   if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
-    navigator.serviceWorker.register("./sw.js")
-      .then(reg => console.log("✅ Service Worker registered", reg))
-      .catch(err => console.warn("❌ SW registration failed", err));
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(reg => console.log("✅ Service Worker registered", reg))
+        .catch(err => console.error("❌ SW registration failed", err));
+    });
   } else {
     console.log("⚠️ PWA requires HTTPS or localhost. Install from a hosted URL.");
   }
 
-  // Install button fallback
+  // Install button (beforeinstallprompt)
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -506,6 +508,7 @@
     };
   });
 
+  // Fallback if beforeinstallprompt never fires
   if (!deferredPrompt) {
     document.getElementById("installAppBtn").onclick = () => {
       alert("To install: use browser menu → 'Install app' / 'Add to Home Screen'.\nFor best results, open from HTTPS (GitHub Pages, Netlify, Vercel).");
