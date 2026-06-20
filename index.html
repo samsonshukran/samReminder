@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>SAMKRAN · KRAN | 60‑day JS & Design Forge</title>
+  <title>SAMKRAN · AI‑Powered 90‑Day Forge</title>
   
   <!-- PWA manifest -->
   <link rel="manifest" href="./manifest.json">
@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
   <style>
+    /* ================== STYLES ================== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: radial-gradient(ellipse at 10% 30%, #0b101a, #020408);
@@ -43,18 +44,20 @@
     ::-webkit-scrollbar-track { background: #11141f; border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #FFD966, #10B981); border-radius: 10px; }
     .container { max-width: 1380px; margin: 0 auto; }
+
     .glass-card {
       background: rgba(6, 10, 20, 0.75);
       backdrop-filter: blur(14px);
       border-radius: 2rem;
-      border: 1px solid rgba(255, 217, 102, 0.3);
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.15), 0 0 16px rgba(255,215,0,0.1);
+      border: 1px solid rgba(255, 217, 102, 0.2);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.1), 0 0 16px rgba(255,215,0,0.05);
       transition: all 0.3s ease;
     }
     .glass-card:hover {
-      border-color: rgba(255, 217, 102, 0.7);
-      box-shadow: 0 25px 40px -14px #000, 0 0 20px rgba(16,185,129,0.2);
+      border-color: rgba(255, 217, 102, 0.5);
+      box-shadow: 0 25px 40px -14px #000, 0 0 20px rgba(16,185,129,0.15);
     }
+
     .brand {
       display: flex;
       justify-content: space-between;
@@ -96,19 +99,17 @@
       transition: 0.2s;
       box-shadow: 0 0 10px #FFD96680;
     }
-    .install-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 16px #FFD966;
-    }
+    .install-btn:hover { transform: scale(1.02); box-shadow: 0 0 16px #FFD966; }
+
     .main-grid {
       display: grid;
       grid-template-columns: 1fr 380px;
       gap: 1.8rem;
     }
-    @media (max-width: 860px) {
-      .main-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    }
+    @media (max-width: 860px) { .main-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+
     .today-panel { padding: 1.8rem 2rem; }
+
     .day-header {
       display: flex;
       justify-content: space-between;
@@ -124,6 +125,12 @@
       font-size: 0.75rem;
       border: 1px solid #FFD966;
       color: #FFE6A3;
+      display: inline-block;
+    }
+    .day-badge.sunday {
+      border-color: #10B981;
+      color: #A7F3D0;
+      background: linear-gradient(105deg, #0a2a1a, #0a0f1c);
     }
     .day-number-glow {
       font-size: 1.9rem;
@@ -132,50 +139,114 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      margin-top: 4px;
     }
+
+    .recommendation-banner {
+      background: linear-gradient(105deg, #1a2a3e, #0a1525);
+      border-radius: 1.2rem;
+      padding: 0.8rem 1.2rem;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid #FFD966;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      animation: pulseGlow 2s infinite;
+    }
+    .recommendation-banner i { color: #FFD966; font-size: 1.2rem; }
+    .recommendation-banner strong { color: #FFE484; }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 #FFD96630; }
+      50% { box-shadow: 0 0 12px 2px #FFD96620; }
+      100% { box-shadow: 0 0 0 0 #FFD96630; }
+    }
+
     .topic-card {
       background: rgba(3, 7, 18, 0.85);
       border-radius: 1.5rem;
       padding: 1.2rem 1.5rem;
-      margin-bottom: 1.3rem;
+      margin-bottom: 1rem;
       border: 1px solid #2c3e66;
-      transition: 0.2s;
+      transition: all 0.2s ease;
+      position: relative;
     }
-    .topic-card:hover { border-color: #10B981; transform: translateY(-3px); }
+    .topic-card:hover { border-color: #10B981; transform: translateY(-2px); }
+    .topic-card.completed { border-color: #10B981; background: rgba(16,185,129,0.08); }
+    .topic-card.recommended { border-color: #FFD966; box-shadow: 0 0 15px #FFD96620; }
+    .topic-card.project-card {
+      border-left: 5px solid #FFD966;
+      background: linear-gradient(115deg, #0f1a2b, #030a14);
+    }
     .topic-title i { font-size: 1.7rem; width: 44px; color: #FFD966; }
     .topic-title span { font-weight: 700; font-size: 1.1rem; background: linear-gradient(135deg,#E0F2FE,#A7F3D0); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .topic-desc { margin-left: 2.8rem; margin-bottom: 12px; font-size: 0.92rem; color: #cfdff5; }
+    .topic-desc { margin-left: 2.8rem; margin-bottom: 8px; font-size: 0.92rem; color: #cfdff5; }
+    .topic-desc.project-desc { color: #FFE6A3; font-weight: 500; }
+    .difficulty-indicator {
+      font-size: 0.65rem;
+      background: #1e2a3a;
+      padding: 2px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-left: 10px;
+      color: #FFD966;
+    }
     .check-item {
-      background: rgba(16,185,129,0.1);
+      background: rgba(16,185,129,0.08);
       border-radius: 40px;
-      padding: 5px 18px;
+      padding: 4px 16px;
       font-size: 0.8rem;
-      border: 1px solid #10B98140;
+      border: 1px solid #10B98130;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
+      transition: 0.15s;
+      margin-left: 2.8rem;
     }
     .check-item:hover { background: #10B98120; border-color: #FFD966; }
-    .check-item input { accent-color: #FFD966; transform: scale(1.05); margin-right: 6px; }
-    .project-box { background: linear-gradient(115deg, #0f1a2b, #030a14); border-left: 5px solid #FFD966; }
-    .progress-stats {
+    .check-item input { accent-color: #FFD966; transform: scale(1.05); margin-right: 4px; }
+
+    .quick-stats {
       display: flex;
       gap: 1rem;
-      margin: 1rem 0;
+      margin: 1.2rem 0;
       flex-wrap: wrap;
+    }
+    .stat-badge {
+      background: rgba(0,0,0,0.5);
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.75rem;
+      border-bottom: 2px solid #FFD966;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stat-badge .num { font-weight: 700; color: #FFE484; }
+
+    .progress-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
     }
     .stat-card {
       background: rgba(0,0,0,0.55);
       border-radius: 1.2rem;
-      padding: 0.7rem 0.6rem;
-      flex: 1;
+      padding: 0.4rem 0.4rem;
+      flex: 1 1 18%;
+      min-width: 60px;
       text-align: center;
       backdrop-filter: blur(4px);
       border-bottom: 2px solid #FFD966;
+      font-size: 0.65rem;
     }
-    .progress-bar-bg { background: #1e2a3a; border-radius: 20px; height: 8px; margin: 6px 0; }
-    .progress-fill { background: linear-gradient(90deg, #FFD966, #10B981, #3b82f6); width: 0%; height: 100%; border-radius: 20px; transition: width 0.4s; }
+    .stat-card .stat-label { font-size: 0.6rem; opacity: 0.8; display: block; }
+    .progress-bar-bg { background: #1e2a3a; border-radius: 20px; height: 5px; margin: 3px 0; overflow: hidden; }
+    .progress-fill { background: linear-gradient(90deg, #FFD966, #10B981, #3b82f6); width: 0%; height: 100%; border-radius: 20px; transition: width 0.5s cubic-bezier(0.2, 0.9, 0.4, 1); }
+
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
@@ -193,17 +264,20 @@
       font-weight: 600;
       cursor: pointer;
       border: 1px solid #2c4466;
-      transition: 0.1s;
+      transition: all 0.15s ease;
     }
+    .day-cell.sunday-cell { border-color: #10B98140; background: rgba(16,185,129,0.08); }
     .day-cell.active-day {
       background: linear-gradient(145deg, #1f4a5e, #0a2e38);
       border: 1px solid #FFD966;
       box-shadow: 0 0 16px #FFD966;
       transform: scale(1.02);
     }
-    .day-cell:hover { background: #1f3f6e; border-color: #10B981; }
-    .completion-icons i { margin: 0 2px; font-size: 0.65rem; }
+    .day-cell:hover { background: #1f3f6e; border-color: #10B981; transform: scale(1.04); }
+    .day-cell .day-dots i { margin: 0 1px; font-size: 0.55rem; }
     .fa-check-circle { color: #10B981; text-shadow: 0 0 4px #6EE7B7; }
+    .fa-circle { color: #4a5a7a; }
+
     .btn-nav {
       background: rgba(0,0,0,0.7);
       border: 1px solid #FFD966;
@@ -215,6 +289,11 @@
       cursor: pointer;
     }
     .btn-nav:hover { background: #FFD966; color: #0a0c12; box-shadow: 0 0 12px #FFD966; }
+    .btn-nav.danger { border-color: #EF4444; color: #EF4444; }
+    .btn-nav.danger:hover { background: #EF4444; color: #0a0c12; box-shadow: 0 0 12px #EF4444; }
+    .btn-nav.success { border-color: #10B981; color: #10B981; }
+    .btn-nav.success:hover { background: #10B981; color: #0a0c12; box-shadow: 0 0 12px #10B981; }
+
     .footer-note {
       margin-top: 2rem;
       text-align: center;
@@ -229,6 +308,7 @@
       border-radius: 40px;
       padding: 6px 12px;
       color: #FFE6AA;
+      width: 100%;
     }
     .install-guide {
       background: rgba(0,0,0,0.6);
@@ -238,282 +318,990 @@
       font-size: 0.7rem;
       text-align: center;
     }
+    .sunday-badge { 
+      background: #10B98130; 
+      border-radius: 20px; 
+      padding: 2px 10px; 
+      font-size: 0.6rem; 
+      color: #6EE7B7;
+      border: 1px solid #10B98140;
+      display: inline-block;
+      margin-left: 8px;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #141c2b;
+      border-radius: 2rem;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      border: 1px solid #FFD96640;
+      box-shadow: 0 0 30px #FFD96620;
+    }
+    .modal-box h2 { color: #FFE484; margin-bottom: 1rem; }
+    .modal-box .question { margin-bottom: 1.5rem; }
+    .modal-box .question p { font-weight: 600; margin-bottom: 0.5rem; }
+    .modal-box .question label { display: block; margin: 0.3rem 0; font-size: 0.9rem; }
+    .modal-box .question input[type="radio"] { margin-right: 8px; }
+    .modal-box .btn-submit {
+      background: #FFD966;
+      border: none;
+      padding: 0.6rem 2rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      color: #0a0c12;
+      cursor: pointer;
+    }
+    .modal-box .btn-submit:hover { background: #FFE484; }
+
+    .chart-container {
+      background: rgba(0,0,0,0.4);
+      border-radius: 1.2rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .chart-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+    .chart-label {
+      width: 60px;
+      font-size: 0.7rem;
+      text-align: right;
+      color: #a0b0d0;
+    }
+    .chart-bar-bg {
+      flex: 1;
+      height: 10px;
+      background: #1e2a3a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #3B82F6, #10B981);
+      transition: width 0.5s ease;
+    }
+    .chart-value {
+      width: 30px;
+      font-size: 0.7rem;
+      color: #FFE6A3;
+    }
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="brand">
-    <div class="logo">
-      <h1><i class="fas fa-crown"></i> SAMKRAN <span style="font-size: 1rem;">⚡KRAN</span></h1>
-      <p>🔥 JavaScript mastery · Graphic design alchemy · 60‑day odyssey</p>
+
+  <!-- TEST MODAL -->
+  <div id="testModal" class="modal-overlay">
+    <div class="modal-box">
+      <h2><i class="fas fa-question-circle"></i> Daily Knowledge Check</h2>
+      <div id="testQuestions"></div>
+      <button id="submitTestBtn" class="btn-submit">Submit & see score</button>
+      <p id="testResult" style="margin-top: 1rem; font-weight: bold;"></p>
     </div>
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <button id="installAppBtn" class="install-btn"><i class="fas fa-download"></i> Install App (KRAN)</button>
-      <div class="badge-kran"><i class="fas fa-gem"></i> PWA · offline ready</div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="container">
+    <div class="brand">
+      <div class="logo">
+        <h1><i class="fas fa-crown"></i> SAMKRAN <span style="font-size: 1rem;">⚡KRAN</span></h1>
+        <p>🧠 AI‑Powered Full‑Stack · 90‑day Adaptive Forge</p>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <button id="enableNotificationsBtn" class="btn-nav" style="border-color:#3B82F6; color:#3B82F6;"><i class="fas fa-bell"></i> Notify</button>
+        <button id="installAppBtn" class="install-btn"><i class="fas fa-download"></i> Install</button>
+        <div class="badge-kran"><i class="fas fa-gem"></i> PWA</div>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <!-- LEFT PANEL -->
+      <div class="glass-card today-panel">
+        <div class="day-header">
+          <div>
+            <div class="day-badge" id="dayTypeBadge">✨ Day 1 · Monday</div>
+            <div class="day-number-glow" id="dayNumberTitle">Day 1 of 90</div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button id="prevDayBtn" class="btn-nav"><i class="fas fa-arrow-left"></i></button>
+            <button id="nextDayBtn" class="btn-nav"><i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- RECOMMENDATION -->
+        <div class="recommendation-banner" id="recommendationBanner">
+          <i class="fas fa-lightbulb"></i>
+          <span id="recommendationText">🧠 Self-Recommendation: Let's focus on <strong>Backend</strong> today!</span>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="quick-stats">
+          <div class="stat-badge"><i class="fas fa-fire" style="color:#FF6B6B;"></i> Streak: <span class="num" id="streakDisplay">0</span></div>
+          <div class="stat-badge"><i class="fas fa-check-circle" style="color:#10B981;"></i> Today: <span class="num" id="todayProgressDisplay">0/5</span></div>
+          <div class="stat-badge"><i class="fas fa-calendar-check" style="color:#FFD966;"></i> Total: <span class="num" id="totalProgressDisplay">0%</span></div>
+          <div class="stat-badge"><i class="fas fa-brain" style="color:#A855F7;"></i> Mastery: <span class="num" id="masteryDisplay">0%</span></div>
+        </div>
+
+        <!-- TRACKS -->
+        <div id="trackContainer">
+          <div class="topic-card" id="frontendCard">
+            <div class="topic-title"><i class="fas fa-code"></i><span>Frontend <span class="difficulty-indicator" id="frontendDifficulty">⚡2</span></span></div>
+            <div class="topic-desc" id="frontendTopicDesc">HTML structure</div>
+            <label class="check-item"><input type="checkbox" id="frontendCompleteCheck" data-track="frontend"> ✔ Done</label>
+          </div>
+          <div class="topic-card" id="backendCard">
+            <div class="topic-title"><i class="fas fa-server"></i><span>Backend <span class="difficulty-indicator" id="backendDifficulty">⚡2</span></span></div>
+            <div class="topic-desc" id="backendTopicDesc">Node intro</div>
+            <label class="check-item"><input type="checkbox" id="backendCompleteCheck" data-track="backend"> ✔ Done</label>
+          </div>
+          <div class="topic-card" id="databaseCard">
+            <div class="topic-title"><i class="fas fa-database"></i><span>Database <span class="difficulty-indicator" id="databaseDifficulty">⚡2</span></span></div>
+            <div class="topic-desc" id="databaseTopicDesc">What is a DB?</div>
+            <label class="check-item"><input type="checkbox" id="databaseCompleteCheck" data-track="database"> ✔ Done</label>
+          </div>
+          <div class="topic-card" id="designCard">
+            <div class="topic-title"><i class="fas fa-paint-brush"></i><span>Design <span class="difficulty-indicator" id="designDifficulty">⚡2</span></span></div>
+            <div class="topic-desc" id="designTopicDesc">Spacing system</div>
+            <label class="check-item"><input type="checkbox" id="designCompleteCheck" data-track="design"> ✔ Done</label>
+          </div>
+          <div class="topic-card project-card" id="integrationCard">
+            <div class="topic-title"><i class="fas fa-link"></i><span>Integration <span id="sundayBadge" class="sunday-badge" style="display:none;">⛺ PROJECT</span></span></div>
+            <div class="topic-desc" id="integrationTopicDesc">Build static page</div>
+            <label class="check-item"><input type="checkbox" id="integrationCompleteCheck" data-track="integration"> ✔ Done</label>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+          <button id="markAllDoneBtn" class="btn-nav success"><i class="fas fa-check-double"></i> Mark All Done</button>
+          <button id="resetTodayBtn" class="btn-nav danger"><i class="fas fa-undo-alt"></i> Reset Today</button>
+          <button id="takeTestBtn" class="btn-nav" style="border-color:#A855F7; color:#A855F7;"><i class="fas fa-question-circle"></i> Take Test</button>
+        </div>
+
+        <!-- PROGRESS BARS -->
+        <hr style="border-color:#FFD96630; margin: 1.2rem 0;">
+        <div class="progress-stats">
+          <div class="stat-card"><span class="stat-label">📘 FE</span><div class="progress-bar-bg"><div class="progress-fill" id="frontendProgressFill"></div></div><span id="frontendCountText">0/90</span></div>
+          <div class="stat-card"><span class="stat-label">📗 BE</span><div class="progress-bar-bg"><div class="progress-fill" id="backendProgressFill"></div></div><span id="backendCountText">0/90</span></div>
+          <div class="stat-card"><span class="stat-label">📙 DB</span><div class="progress-bar-bg"><div class="progress-fill" id="databaseProgressFill"></div></div><span id="databaseCountText">0/90</span></div>
+          <div class="stat-card"><span class="stat-label">🎨 UI</span><div class="progress-bar-bg"><div class="progress-fill" id="designProgressFill"></div></div><span id="designCountText">0/90</span></div>
+          <div class="stat-card"><span class="stat-label">🔗 INT</span><div class="progress-bar-bg"><div class="progress-fill" id="integrationProgressFill"></div></div><span id="integrationCountText">0/90</span></div>
+        </div>
+
+        <!-- CHART -->
+        <div class="chart-container">
+          <div style="font-size:0.7rem; color:#a0b0d0; margin-bottom: 6px;">📈 Progress last 10 days</div>
+          <div id="chartBars"></div>
+        </div>
+
+        <div style="font-size: 0.7rem; text-align: center; color:#FFE6A3; margin-top: 8px;"><i class="fas fa-calendar-alt"></i> Tap any day → view 5 subtopics • Sundays = Projects</div>
+        <div class="install-guide">
+          <i class="fas fa-info-circle"></i> <strong>Install:</strong> Browser menu → "Install app" / "Add to Home Screen". HTTPS required.
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: CALENDAR -->
+      <div class="glass-card" style="padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3><i class="fas fa-calendar-week" style="color:#FFD966;"></i> 90‑day timeline</h3>
+          <div style="font-size: 0.6rem; background:#0f172ab3; padding: 3px 8px; border-radius: 20px;"><i class="fas fa-check-circle" style="color:#10B981;"></i> done &nbsp;|&nbsp; <i class="fas fa-crown" style="color:#FFD966;"></i> gold</div>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+        <div style="margin-top: 20px;">
+          <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap;">
+            <button id="goTodayBtn" class="btn-nav" style="background:#1e2a3e; border-color:#10B981;"><i class="fas fa-sun"></i> Today</button>
+            <button id="resetProgressBtn" class="btn-nav danger"><i class="fas fa-trash-alt"></i> Reset All</button>
+          </div>
+          <label style="font-size: 0.7rem; color:#FFE6A3;"><i class="fas fa-calendar-plus"></i> 🧙 Start date:</label>
+          <input type="date" id="startDateInput">
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">
+      🧠 SAMKRAN (KRAN) • 90‑day Adaptive Forge • Sundays = Projects<br>
+      🌟 5 tracks/day • Difficulty adjusts • Tests & analytics • Offline AI
     </div>
   </div>
 
-  <div class="main-grid">
-    <div class="glass-card today-panel">
-      <div class="day-header">
-        <div>
-          <div class="day-badge" id="dayTypeBadge">✨ Day 1 · Monday</div>
-          <div class="day-number-glow" id="dayNumberTitle">Day 1 of 60</div>
-        </div>
-        <div style="display: flex; gap: 10px;">
-          <button id="prevDayBtn" class="btn-nav"><i class="fas fa-arrow-left"></i> Prev</button>
-          <button id="nextDayBtn" class="btn-nav">Next <i class="fas fa-arrow-right"></i></button>
-        </div>
-      </div>
+  <script>
+    // ================================================================
+    //  WRAP EVERYTHING IN DOMContentLoaded TO ENSURE DOM IS READY
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', function() {
 
-      <div class="topic-card">
-        <div class="topic-title"><i class="fab fa-js"></i><span>JavaScript · Core Ignition</span></div>
-        <div class="topic-desc" id="jsTopicDesc">Variables & Data Types</div>
-        <div class="checkbox-group" style="margin-left: 2.5rem;"><label class="check-item"><input type="checkbox" id="jsCompleteCheck"> <i class="fas fa-code"></i> Mark JS completed</label></div>
-      </div>
+      // ================================================================
+      //  CURRICULUM DATA (90 days, 5 tracks, Sunday projects)
+      // ================================================================
+      const frontendTopics = [
+        "HTML structure (semantic tags)", "Forms & inputs", "CSS selectors", "Box model", "Flexbox basics",
+        "Flexbox layout", "CSS Grid", "Responsive design", "Media queries", "Typography systems",
+        "Colors & contrast", "Layout recreation", "Mini project UI", "JS variables", "Functions",
+        "Arrays", "Objects", "Loops", "DOM basics", "Events",
+        "DOM manipulation", "Local storage", "Fetch intro", "Error handling", "Mini JS project",
+        "Portfolio layout", "Portfolio styling", "Portfolio JS", "React components", "Props",
+        "State", "Events in React", "useState hook", "useEffect", "Lists rendering",
+        "Conditional rendering", "Forms in React", "Basic routing", "Weather app (components)", "Weather app (state)",
+        "Weather app (API)", "Blog UI (components)", "Node intro", "Express setup", "Routes (GET)",
+        "Route parameters", "POST routes", "Middleware", "Static files", "MongoDB intro",
+        "Collections & documents", "CRUD insert", "CRUD find", "CRUD update", "CRUD delete",
+        "Mongoose ODM", "JWT basics", "Login endpoint", "Protected routes", "Password hashing",
+        "User registration", "Auth middleware", "Session vs JWT", "Context API", "Protected routes (React)",
+        "Auth UI", "API with axios", "Full MERN setup", "Frontend consumes API", "MERN integration",
+        "Social UI design", "Post components", "Like system", "Comment system", "User profiles",
+        "Feed system", "Social integration", "Deploy frontend", "Deploy backend", "CI/CD intro",
+        "Performance profiling", "Security best practices", "Final polish", "Portfolio v2"
+      ];
+      const backendTopics = [
+        "What is a server?", "Install Node & npm", "Basic JS in Node", "HTTP basics", "Express setup",
+        "Simple route (GET)", "Route parameters", "Query strings", "POST routes", "Middleware basics",
+        "Static files", "Environment variables", "Error handling", "REST API design", "CRUD API (day 1)",
+        "CRUD API (day 2)", "CRUD API (day 3)", "Postman testing", "File uploads", "CORS",
+        "Express router", "Authentication intro", "JWT basics", "Login endpoint", "Protected routes",
+        "Middleware auth", "Password hashing (bcrypt)", "User registration", "Session vs JWT", "OAuth overview",
+        "API for weather", "API for blog", "React + Express integration", "CORS setup", "Error handling",
+        "Data validation", "API versioning", "WebSocket intro", "Real‑time chat (day 1)", "Real‑time chat (day 2)",
+        "Microservices concept", "Docker intro", "Deploy backend", "CI/CD for backend", "MongoDB connection",
+        "Mongoose models", "CRUD with Mongoose", "Population", "Validation", "Transactions",
+        "Performance", "JWT implementation", "Refresh tokens", "Role-based auth", "Security headers",
+        "Rate limiting", "Error logging", "Testing backend", "GraphQL intro", "Express with TypeScript",
+        "API documentation", "Webhook basics", "Queue systems", "Caching (Redis)", "Final backend project",
+        "Microservice communication", "Event-driven architecture", "Serverless intro", "Kubernetes basics",
+        "Monitoring & alerts", "Performance tuning", "Final deployment"
+      ];
+      const databaseTopics = [
+        "What is a database?", "SQL vs NoSQL", "MongoDB intro", "Collections & documents", "CRUD operations (insert)",
+        "CRUD (find)", "CRUD (update)", "CRUD (delete)", "Query operators", "Indexing basics",
+        "Data modeling (one‑to‑many)", "Data modeling (many‑to‑many)", "Aggregation intro", "MongoDB Compass", "PostgreSQL intro",
+        "Mongoose ODM", "Schema design", "Model methods", "Virtuals", "Middleware hooks",
+        "Population (relations)", "Validation", "Error handling", "Transactions", "Performance",
+        "Database indexing strategies", "Sharding", "Replication", "Backup & restore", "Security",
+        "Database design patterns", "ORM vs raw SQL", "Migration tools", "Final DB project", "MongoDB Atlas",
+        "Postgres with Node", "SQL queries", "Joins", "ACID properties", "Transactions in SQL",
+        "Advanced indexing", "Full-text search", "Replication setup", "Sharding strategies", "Database monitoring",
+        "Query optimization", "Data warehousing", "ETL basics", "Final DB architecture"
+      ];
+      const designTopics = [
+        "Spacing system (8px grid)", "Alignment principles", "Color theory basics", "Typography hierarchy", "Contrast rules",
+        "UI layout patterns", "Figma basics", "Designing a card", "Button styles", "Form design",
+        "Navigation design", "Hero section", "Footer design", "Responsive design thinking", "Accessibility (WCAG)",
+        "Component‑based design", "Reusable UI patterns", "Dashboard layout", "Mobile‑first design", "Designing tables",
+        "Modals & overlays", "Loading states", "Empty states", "Design systems intro", "Atomic design",
+        "SaaS‑style layouts", "User flows", "Wireframing", "Prototyping in Figma", "User testing basics",
+        "UI animations", "Micro‑interactions", "Dark mode", "Brand guidelines", "Design critique",
+        "Portfolio design", "Case study layout", "Final design polish", "Visual hierarchy", "Gestalt principles",
+        "Color psychology", "Typography pairing", "Design tokens", "Responsive typography", "Advanced grid systems",
+        "UI for data dashboards", "Motion design principles", "Accessible interactions", "Final design system"
+      ];
+      const integrationTopics = [
+        "Build static profile page", "Add CSS styling", "JS interaction (click)", "Simple form validation", "Local storage todo",
+        "Fetch mock API", "Error handling", "Mini project: calculator", "Portfolio site (structure)", "Portfolio site (design)",
+        "Portfolio site (interaction)", "Deploy static site", "First integration: HTML+CSS+JS", "Mini landing page", "To‑do app (vanilla)",
+        "JS app with local storage", "Form validation system", "DOM manipulation project", "Event-driven UI", "Mini dashboard",
+        "JS game (simple)", "React component tree", "State management", "Fetch API in React", "Weather app (integration)",
+        "Blog UI + mock API", "Connect React to Express (CORS)", "Full CRUD (frontend+backend)", "Authentication flow", "Protected route demo",
+        "Integration: task manager (day 1)", "Integration: task manager (day 2)", "Integration: task manager (day 3)", "MERN setup", "Backend API for tasks",
+        "Frontend consumes API", "Auth integration", "Full MERN app (day 1)", "Full MERN app (day 2)", "Full MERN app (day 3)",
+        "Deploy full stack", "Final project: social app (day 1)", "Final project: social app (day 2)", "Final project: social app (day 3)",
+        "Final project: social app (day 4)", "Portfolio v2 (full stack)", "Code review & refactor", "Final integration polish", "Deployment pipeline",
+        "CI/CD integration", "Monitoring setup", "Performance optimization", "Security hardening", "API gateway",
+        "Microservice integration", "Final full-stack system"
+      ];
+      const sundayProjects = [
+        "⛺ PROJECT: Profile Page – Build a personal profile page with HTML, CSS, and a contact form.",
+        "⛺ PROJECT: Landing Page – Design a responsive product landing page with hero, features, and footer.",
+        "⛺ PROJECT: To‑Do App – Build a vanilla JS to‑do list with add, delete, and local storage.",
+        "⛺ PROJECT: Portfolio Site – Create a multi‑page portfolio with projects, about, and contact.",
+        "⛺ PROJECT: Weather App – Build a React weather app that fetches from a public API.",
+        "⛺ PROJECT: Blog UI – Create a blog layout in React with posts, categories, and search.",
+        "⛺ PROJECT: Task API – Build a REST API with Express for task management (CRUD).",
+        "⛺ PROJECT: Task Manager Backend – Add MongoDB and Mongoose to the task API.",
+        "⛺ PROJECT: Auth System – Build JWT login/register with protected routes.",
+        "⛺ PROJECT: Full Task Manager – Connect React frontend to the task API with auth.",
+        "⛺ PROJECT: Mini Social App – Build a social feed with posts, likes, and comments.",
+        "⛺ PROJECT: Final Portfolio – Deploy a full‑stack portfolio with projects and blog.",
+        "⛺ PROJECT: SaaS Dashboard – Build a dashboard with analytics, users, and settings."
+      ];
 
-      <div class="topic-card">
-        <div class="topic-title"><i class="fas fa-palette"></i><span>Graphic Design · Visual Edge</span></div>
-        <div class="topic-desc" id="designTopicDesc">Color theory & harmony</div>
-        <div class="checkbox-group" style="margin-left: 2.5rem;"><label class="check-item"><input type="checkbox" id="designCompleteCheck"> 🎨 Mark design mastered</label></div>
-      </div>
+      const padArray = (arr, n) => { while (arr.length < n) arr.push(arr[arr.length % arr.length]); return arr; };
+      const front = padArray(frontendTopics, 90);
+      const back = padArray(backendTopics, 90);
+      const db = padArray(databaseTopics, 90);
+      const des = padArray(designTopics, 90);
+      const integ = padArray(integrationTopics, 90);
 
-      <div class="topic-card project-box" id="projectCard" style="display: none;">
-        <div class="topic-title"><i class="fas fa-laptop-code"></i><span>🏕️ Weekend Forge</span></div>
-        <div class="topic-desc" id="projectDesc">Build a project</div>
-        <div class="checkbox-group" style="margin-left: 2.5rem;"><label class="check-item"><input type="checkbox" id="projectCompleteCheck"> 🚀 Project done</label></div>
-      </div>
-
-      <hr style="border-color:#FFD96630;">
-      <div class="progress-stats">
-        <div class="stat-card"><span>📘 JS mastery</span><div class="progress-bar-bg"><div class="progress-fill" id="jsProgressFill"></div></div><span id="jsCountText">0/60</span></div>
-        <div class="stat-card"><span>🎨 Design aura</span><div class="progress-bar-bg"><div class="progress-fill" id="designProgressFill"></div></div><span id="designCountText">0/60</span></div>
-        <div class="stat-card"><span>🛠️ Legendary builds</span><div class="progress-bar-bg"><div class="progress-fill" id="projectProgressFill"></div></div><span id="projectCountText">0/20</span></div>
-      </div>
-      <div style="font-size: 0.7rem; text-align: center; color:#FFE6A3;"><i class="fas fa-calendar-alt"></i> Click any day in timeline → review & track</div>
-      <div class="install-guide">
-        <i class="fas fa-info-circle"></i> <strong>Installation:</strong> Use the browser menu → "Install app" / "Add to Home Screen". Works best over HTTPS.
-      </div>
-    </div>
-
-    <div class="glass-card" style="padding: 1.5rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3><i class="fas fa-calendar-week" style="color:#FFD966;"></i> 60‑day timeline · KRAN</h3>
-        <div style="font-size: 0.65rem; background:#0f172ab3; padding: 4px 8px; border-radius: 20px;"><i class="fas fa-check-circle" style="color:#10B981;"></i> done &nbsp;|&nbsp; <i class="fas fa-crown" style="color:#FFD966;"></i> gold</div>
-      </div>
-      <div id="calendarGrid" class="calendar-grid"></div>
-      <div style="margin-top: 20px;">
-        <div style="display: flex; gap: 12px; justify-content: center; margin-bottom: 14px;">
-          <button id="goTodayBtn" class="btn-nav" style="background:#1e2a3e; border-color:#10B981;"><i class="fas fa-sun"></i> Today's forge</button>
-          <button id="resetProgressBtn" class="btn-nav" style="background:#2a1a1a80; border-color:#EF4444;"><i class="fas fa-trash-alt"></i> Reset all</button>
-        </div>
-        <label style="font-size: 0.7rem; color:#FFE6A3;"><i class="fas fa-calendar-plus"></i> 🧙 Start your journey:</label>
-        <input type="date" id="startDateInput" style="width: 100%; margin-top: 6px;">
-      </div>
-    </div>
-  </div>
-  <div class="footer-note">
-    🧠 SAMKRAN (KRAN) | Installable PWA • Offline • Add to Home Screen = native feel<br>
-    🌟 Each day: JS deep dive + design secret. Weekends: real portfolio projects.
-  </div>
-</div>
-
-<script>
-  // ---------- CURRICULUM (full 60 days) ----------
-  const jsTopics = [
-    "Variables (let, const, var) & scopes","Data Types: string, number, boolean, null","Operators (arithmetic, assignment, comparison)","Type coercion & conversion","Functions (declaration & expression)","Parameters & returns","Conditionals (if/else, else if)","Switch statements","Logical operators (&&, ||, !)","Truthy & falsy values","Arrays: index, length","Array methods (push, pop, shift)","Loops: for, while, do..while","for...of & for...in","forEach & iteration","Objects: properties & methods","Object destructuring & spread","DOM Selection (querySelector)","Manipulating content (innerHTML)","Changing CSS with JS","Events: click, input, submit","Event listeners & handlers","Forms & validation basics","LocalStorage (setItem, getItem)","JSON.stringify & parse","Fetch API basics (GET)","Async/Await & promises","Error handling (try/catch)","Arrow functions & this","Array map, filter","Spread & rest operators","Template literals","Modules (import/export)","Classes & OOP basics","setInterval & setTimeout","Date object & timestamps","Event delegation","Debouncing intro","Advanced DOM traversal","CSS custom properties & JS","LocalStorage for app state","Fetch with error handling","FormData API","Responsive animations","Performance & reflows","DevTools debugging","Canvas API intro","Web Storage vs Session","Drag & drop API","Audio/Video API","Code organization","Final real‑world utilities"
-  ];
-  const designTopics = [
-    "Color theory: primary/secondary","Color harmonies (complementary)","Typography: serif vs sans","Font pairing principles","Whitespace & breathing","Layout hierarchy (F‑pattern)","Flexbox foundations","CSS Grid intro","Card UI design","Button states & hover","Forms styling (inputs, labels)","Focus & active states","Gradients & textures","Box shadows & depth","Icons & SVG integration","Responsive design (media queries)","Mobile‑first approach","Navigation bar patterns","Hero section design","Footer best practices","Image optimization & ratios","Consistent spacing (8px grid)","Alignment grids","UI color contrast (WCAG)","Micro‑interactions","Dark mode basics","Glassmorphism & frosted","Neumorphism (cautious)","Dashboard layouts","Data visualization aesthetics","Figma fundamentals","Design systems intro","Atomic design","Form microcopy & guidance","Loading states & skeletons","Dropdown & modals design","CSS animations (keyframes)","Parallax illusion","CSS custom properties for themes","Web fonts performance","UI for touch devices","Wireframing concepts","Visual balance","Brand consistency","Emotive design","User feedback patterns","Component reusability","Typography scale (rem)","Shadow layering","Accessible color ratios","Design critique","Motion with purpose","Interactive prototypes","UI/UX portfolio tips","Final polish & design refinement","Handoff documentation","Design systems usage","Visual storytelling","Building design library","Mastering layout composition"
-  ];
-  const weekendProjects = [
-    "🌐 Personal Bio Card: responsive with social links","📋 To-Do Lite: minimalist task manager","🎨 Color Palette Explorer: generate palettes","📆 Habit Snapshot: weekly tracker","🧮 Smart Calculator: UI + keyboard","🌦️ Weather Widget UI: mock API","📝 Quote generator with animations","⏱️ Pomodoro timer: circular progress","✍️ Journal entry app: markdown preview","📸 Image gallery lightbox","🎯 Goal setter: add/remove goals","💡 Decision maker wheel: spin","📈 Expense splitter: totals","🎵 Music player UI: play/pause","📱 Mobile-first UI kit","⚡ Flashcard quiz: JS terms","📅 Event countdown","🧠 Memory game (matching)","✏️ Drawing canvas","🖼️ Portfolio gallery filter"
-  ];
-
-  function buildCurriculum() {
-    const arr = [];
-    for (let day = 1; day <= 60; day++) {
-      const jsIdx = (day - 1) % jsTopics.length;
-      const designIdx = (day - 1) % designTopics.length;
-      const isWeekend = (day % 7 === 6 || day % 7 === 0);
-      let project = null;
-      if (isWeekend) {
-        const weekendCount = Math.floor((day + 6) / 7);
-        const projIndex = (weekendCount - 1) % weekendProjects.length;
-        project = weekendProjects[projIndex];
+      function buildCurriculum() {
+        const arr = []; let pIdx = 0;
+        for (let d = 1; d <= 90; d++) {
+          const isSunday = (d % 7 === 0);
+          let integration = integ[d-1];
+          let projectDesc = '';
+          if (isSunday) {
+            projectDesc = sundayProjects[pIdx % sundayProjects.length];
+            pIdx++;
+            integration = projectDesc;
+          }
+          arr.push({
+            day: d,
+            frontend: front[d-1],
+            backend: back[d-1],
+            database: db[d-1],
+            design: des[d-1],
+            integration: integration,
+            isSunday,
+            isProjectDay: isSunday,
+            projectDesc: isSunday ? projectDesc : '',
+            weekdayName: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][(d-1)%7]
+          });
+        }
+        return arr;
       }
-      arr.push({
-        day, jsTopic: jsTopics[jsIdx], designTopic: designTopics[designIdx],
-        isWeekend, weekendProject: project,
-        weekdayName: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][(day-1)%7]
+      const CURRICULUM = buildCurriculum();
+
+      // ================================================================
+      //  STATE ENGINE (THE BRAIN)
+      // ================================================================
+      let progressData = {};
+      let currentDay = 1;
+      let startDate = null;
+      let deferredPrompt = null;
+
+      // ----- Load / Save -----
+      function loadProgress() {
+        const stored = localStorage.getItem("samkran_progress_90_v7");
+        if (stored) {
+          try {
+            progressData = JSON.parse(stored);
+          } catch(e) { progressData = {}; }
+        }
+        // Ensure all 90 days exist
+        for (let i = 1; i <= 90; i++) {
+          if (!progressData[i]) {
+            progressData[i] = {
+              frontend: { done: false, difficulty: 2 },
+              backend: { done: false, difficulty: 2 },
+              database: { done: false, difficulty: 2 },
+              design: { done: false, difficulty: 2 },
+              integration: { done: false, difficulty: 2 },
+              testScore: 0,
+              testTaken: false,
+            };
+          } else {
+            // Ensure nested objects exist
+            ['frontend','backend','database','design','integration'].forEach(t => {
+              if (!progressData[i][t]) progressData[i][t] = { done: false, difficulty: 2 };
+              if (progressData[i][t].done === undefined) progressData[i][t].done = false;
+              if (progressData[i][t].difficulty === undefined) progressData[i][t].difficulty = 2;
+            });
+            if (progressData[i].testScore === undefined) progressData[i].testScore = 0;
+            if (progressData[i].testTaken === undefined) progressData[i].testTaken = false;
+          }
+        }
+        saveProgress();
+      }
+      function saveProgress() {
+        localStorage.setItem("samkran_progress_90_v7", JSON.stringify(progressData));
+      }
+
+      // ----- Core update function -----
+      function setTrackDone(day, track, val) {
+        if (!progressData[day]) return;
+        const state = progressData[day][track];
+        if (state) {
+          state.done = val;
+          if (val) {
+            state.difficulty = Math.min(5, state.difficulty + 1);
+          } else {
+            state.difficulty = Math.max(1, state.difficulty - 1);
+          }
+          saveProgress();
+          const allDone = ['frontend','backend','database','design','integration'].every(t => progressData[day][t].done);
+          if (allDone && !progressData[day].testTaken) {
+            setTimeout(() => openTestModal(day), 500);
+          }
+          updateAllUI();
+        }
+      }
+
+      // ================================================================
+      //  TEST SYSTEM
+      // ================================================================
+      function generateTestQuestions(day) {
+        const data = CURRICULUM[day-1];
+        const tracks = ['frontend','backend','database','design','integration'];
+        const shuffled = tracks.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+        return selected.map(track => ({
+          track: track,
+          question: `What is the main purpose of "${data[track]}"?`,
+          options: [
+            `To ${track === 'frontend' ? 'structure UI' : track === 'backend' ? 'handle logic' : track === 'database' ? 'store data' : track === 'design' ? 'improve visuals' : 'connect everything'}`,
+            `To ${track === 'frontend' ? 'style elements' : track === 'backend' ? 'manage requests' : track === 'database' ? 'query data' : track === 'design' ? 'layout design' : 'build APIs'}`,
+            `To ${track === 'frontend' ? 'add interactivity' : track === 'backend' ? 'deploy servers' : track === 'database' ? 'manage schemas' : track === 'design' ? 'UX research' : 'deploy systems'}`
+          ],
+          correct: 0
+        }));
+      }
+
+      let currentTestQuestions = [];
+      let currentTestDay = 1;
+
+      function openTestModal(day) {
+        currentTestDay = day;
+        const questions = generateTestQuestions(day);
+        currentTestQuestions = questions;
+        const container = document.getElementById('testQuestions');
+        container.innerHTML = '';
+        questions.forEach((q, idx) => {
+          const div = document.createElement('div');
+          div.className = 'question';
+          div.innerHTML = `<p>${idx+1}. ${q.question}</p>`;
+          q.options.forEach((opt, oi) => {
+            const label = document.createElement('label');
+            label.innerHTML = `<input type="radio" name="q${idx}" value="${oi}"> ${opt}`;
+            div.appendChild(label);
+          });
+          container.appendChild(div);
+        });
+        document.getElementById('testResult').innerHTML = '';
+        document.getElementById('testModal').classList.add('open');
+      }
+
+      document.getElementById('submitTestBtn').addEventListener('click', function() {
+        const day = currentTestDay;
+        let score = 0;
+        const questions = currentTestQuestions;
+        for (let i = 0; i < questions.length; i++) {
+          const radios = document.querySelectorAll(`input[name="q${i}"]`);
+          let selected = -1;
+          radios.forEach(r => { if (r.checked) selected = parseInt(r.value); });
+          if (selected === questions[i].correct) score++;
+        }
+        if (progressData[day]) {
+          progressData[day].testScore = score;
+          progressData[day].testTaken = true;
+          saveProgress();
+        }
+        const resultEl = document.getElementById('testResult');
+        if (score >= 2) {
+          resultEl.innerHTML = `✅ Great! You scored ${score}/3. Keep it up!`;
+          resultEl.style.color = '#10B981';
+          if (score === 3) {
+            fireConfetti();
+            ['frontend','backend','database','design','integration'].forEach(t => {
+              if (progressData[day][t]) {
+                progressData[day][t].difficulty = Math.min(5, progressData[day][t].difficulty + 1);
+              }
+            });
+            saveProgress();
+          }
+        } else {
+          resultEl.innerHTML = `⚠️ You scored ${score}/3. We'll repeat the weakest topic tomorrow.`;
+          resultEl.style.color = '#F59E0B';
+          let minDiff = 10; let weakTrack = 'frontend';
+          ['frontend','backend','database','design','integration'].forEach(t => {
+            if (progressData[day][t] && progressData[day][t].difficulty < minDiff) {
+              minDiff = progressData[day][t].difficulty;
+              weakTrack = t;
+            }
+          });
+          localStorage.setItem('samkran_repeat_track', weakTrack);
+        }
+        setTimeout(() => {
+          document.getElementById('testModal').classList.remove('open');
+          updateAllUI();
+        }, 3000);
       });
-    }
-    return arr;
-  }
-  const CURRICULUM = buildCurriculum();
 
-  // ---------- STORAGE ----------
-  let progressData = {};
-  function loadProgress() {
-    const stored = localStorage.getItem("samkran_kran_progress");
-    if (stored) progressData = JSON.parse(stored);
-    else progressData = {};
-    for (let i = 1; i <= 60; i++) if (!progressData[i]) progressData[i] = { js: false, design: false, project: false };
-    saveProgress();
-  }
-  function saveProgress() { localStorage.setItem("samkran_kran_progress", JSON.stringify(progressData)); }
-  function setCompletion(day, type, val) {
-    if (!progressData[day]) progressData[day] = { js: false, design: false, project: false };
-    progressData[day][type] = val;
-    saveProgress();
-    updateAllUI();
-  }
+      // ================================================================
+      //  UI RENDER
+      // ================================================================
+      function renderCurrentDay() {
+        const data = CURRICULUM[currentDay-1];
+        const isSunday = data.isSunday;
+        document.getElementById('dayNumberTitle').innerHTML = `Day ${currentDay} of 90 · ${data.weekdayName}`;
+        const badge = document.getElementById('dayTypeBadge');
+        badge.innerHTML = `✨ Day ${currentDay} · ${data.weekdayName}`;
+        if (isSunday) {
+          badge.classList.add('sunday');
+          badge.innerHTML = `⛺ SUNDAY · Day ${currentDay} · PROJECT DAY`;
+        } else {
+          badge.classList.remove('sunday');
+        }
 
-  let currentDay = 1;
-  let startDate = null;
-  let deferredPrompt = null;
+        const p = progressData[currentDay] || {};
+        const tracks = ['frontend','backend','database','design','integration'];
+        tracks.forEach(t => {
+          const state = p[t] || { done: false, difficulty: 2 };
+          const descEl = document.getElementById(t+'TopicDesc');
+          const checkEl = document.getElementById(t+'CompleteCheck');
+          const cardEl = document.getElementById(t+'Card');
+          const diffEl = document.getElementById(t+'Difficulty');
 
-  function initStartDate() {
-    const stored = localStorage.getItem("samkran_start_gold");
-    if (stored) startDate = new Date(stored);
-    else { startDate = new Date(); startDate.setHours(0,0,0,0); }
-    document.getElementById("startDateInput").valueAsDate = startDate;
-  }
-  function updateStartDateFromInput() {
-    const val = document.getElementById("startDateInput").value;
-    if (val) {
-      startDate = new Date(val);
-      startDate.setHours(0,0,0,0);
-      localStorage.setItem("samkran_start_gold", startDate.toISOString());
-    }
-  }
-  function getTodayBasedDay() {
-    if (!startDate) return 1;
-    const today = new Date(); today.setHours(0,0,0,0);
-    const diff = Math.floor((today - startDate) / 86400000);
-    let day = diff + 1;
-    if (day < 1) day = 1;
-    if (day > 60) day = 60;
-    return day;
-  }
+          // Safety: if any element is missing, skip this track
+          if (!descEl || !checkEl || !cardEl || !diffEl) {
+            console.warn(`Missing element for track: ${t}`);
+            return;
+          }
 
-  function renderCurrentDay() {
-    const data = CURRICULUM[currentDay-1];
-    document.getElementById("dayNumberTitle").innerHTML = `Day ${currentDay} of 60 · ${data.weekdayName}`;
-    document.getElementById("jsTopicDesc").innerHTML = data.jsTopic;
-    document.getElementById("designTopicDesc").innerHTML = data.designTopic;
-    const projCard = document.getElementById("projectCard");
-    if (data.isWeekend && data.weekendProject) {
-      projCard.style.display = "block";
-      document.getElementById("projectDesc").innerHTML = data.weekendProject;
-    } else projCard.style.display = "none";
+          // Topic description
+          descEl.innerHTML = data[t];
+          if (isSunday && t === 'integration') {
+            descEl.classList.add('project-desc');
+            document.getElementById('sundayBadge').style.display = 'inline';
+            cardEl.classList.add('project-card');
+          } else {
+            descEl.classList.remove('project-desc');
+            if (t === 'integration') {
+              document.getElementById('sundayBadge').style.display = 'none';
+              cardEl.classList.remove('project-card');
+            }
+          }
 
-    document.getElementById("jsCompleteCheck").checked = progressData[currentDay]?.js || false;
-    document.getElementById("designCompleteCheck").checked = progressData[currentDay]?.design || false;
-    if (data.isWeekend) document.getElementById("projectCompleteCheck").checked = progressData[currentDay]?.project || false;
-    else document.getElementById("projectCompleteCheck").checked = false;
+          // Checkbox
+          checkEl.checked = state.done;
+          // Difficulty
+          diffEl.innerHTML = '⚡'+state.difficulty;
 
-    const jsCh = document.getElementById("jsCompleteCheck");
-    const desCh = document.getElementById("designCompleteCheck");
-    const projCh = document.getElementById("projectCompleteCheck");
-    const jsHandler = () => setCompletion(currentDay, "js", jsCh.checked);
-    const desHandler = () => setCompletion(currentDay, "design", desCh.checked);
-    const projHandler = () => { if(CURRICULUM[currentDay-1].isWeekend) setCompletion(currentDay, "project", projCh.checked); };
-    jsCh.removeEventListener("change", jsHandler);
-    desCh.removeEventListener("change", desHandler);
-    projCh.removeEventListener("change", projHandler);
-    jsCh.addEventListener("change", jsHandler);
-    desCh.addEventListener("change", desHandler);
-    if (CURRICULUM[currentDay-1].isWeekend) projCh.addEventListener("change", projHandler);
-  }
+          // Recommended highlight
+          const rec = getRecommendation();
+          if (t === rec) {
+            cardEl.classList.add('recommended');
+          } else {
+            cardEl.classList.remove('recommended');
+          }
+          if (state.done) cardEl.classList.add('completed');
+          else cardEl.classList.remove('completed');
+        });
 
-  function updateStatsAndCalendar() {
-    let jsTotal=0, designTotal=0, projectTotal=0, totalWeekends=0;
-    for (let d=1; d<=60; d++) {
-      if (progressData[d]?.js) jsTotal++;
-      if (progressData[d]?.design) designTotal++;
-      if (CURRICULUM[d-1].isWeekend) {
-        totalWeekends++;
-        if (progressData[d]?.project) projectTotal++;
+        // Recommendation banner
+        const recTrack = getRecommendation();
+        const recNames = { frontend:'Frontend', backend:'Backend', database:'Database', design:'Design', integration:'Integration' };
+        const repeatTrack = localStorage.getItem('samkran_repeat_track');
+        let recMsg = `🧠 Self-Recommendation: Let's focus on <strong>${recNames[recTrack]}</strong> today!`;
+        if (repeatTrack) {
+          recMsg = `🔄 Repeat: You struggled with <strong>${recNames[repeatTrack]}</strong> yesterday. Let's try again!`;
+          localStorage.removeItem('samkran_repeat_track');
+        }
+        document.getElementById('recommendationText').innerHTML = recMsg;
+
+        updateStatsAndCalendar();
+        renderChart();
       }
-    }
-    document.getElementById("jsProgressFill").style.width = `${(jsTotal/60)*100}%`;
-    document.getElementById("designProgressFill").style.width = `${(designTotal/60)*100}%`;
-    document.getElementById("projectProgressFill").style.width = totalWeekends ? `${(projectTotal/totalWeekends)*100}%` : "0%";
-    document.getElementById("jsCountText").innerText = `${jsTotal}/60`;
-    document.getElementById("designCountText").innerText = `${designTotal}/60`;
-    document.getElementById("projectCountText").innerText = `${projectTotal}/${totalWeekends}`;
-    renderCalendar();
-  }
 
-  function renderCalendar() {
-    const grid = document.getElementById("calendarGrid");
-    grid.innerHTML = "";
-    for (let d=1; d<=60; d++) {
-      const item = CURRICULUM[d-1];
-      const jsDone = progressData[d]?.js;
-      const designDone = progressData[d]?.design;
-      const projDone = item.isWeekend ? (progressData[d]?.project || false) : false;
-      const cell = document.createElement("div");
-      cell.className = `day-cell ${currentDay === d ? 'active-day' : ''}`;
-      cell.innerHTML = `<div><strong>${d}</strong><br><span style="font-size:9px;">${item.weekdayName.slice(0,3)}</span></div>
-                        <div class="completion-icons">
-                          <i class="${jsDone ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
-                          <i class="${designDone ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
-                          ${item.isWeekend ? `<i class="${projDone ? 'fas fa-check-circle' : 'far fa-circle'}"></i>` : `<i class="fas fa-minus-circle" style="opacity:0.2;"></i>`}
-                        </div>`;
-      cell.addEventListener("click", (function(dayNum) { return function() { currentDay = dayNum; renderCurrentDay(); renderCalendar(); }; })(d));
-      grid.appendChild(cell);
-    }
-  }
+      function updateStatsAndCalendar() {
+        const totals = { frontend:0, backend:0, database:0, design:0, integration:0 };
+        let totalCompleted = 0;
+        for (let d = 1; d <= 90; d++) {
+          const p = progressData[d];
+          if (p) {
+            if (p.frontend && p.frontend.done) { totals.frontend++; totalCompleted++; }
+            if (p.backend && p.backend.done) { totals.backend++; totalCompleted++; }
+            if (p.database && p.database.done) { totals.database++; totalCompleted++; }
+            if (p.design && p.design.done) { totals.design++; totalCompleted++; }
+            if (p.integration && p.integration.done) { totals.integration++; totalCompleted++; }
+          }
+        }
+        const totalPossible = 90 * 5;
+        const totalPercent = Math.round((totalCompleted / totalPossible) * 100);
 
-  function updateAllUI() { renderCurrentDay(); updateStatsAndCalendar(); }
-  function resetAllProgress() {
-    if(confirm("⚠️ RESET entire 60‑day progress?")) {
-      for (let i=1;i<=60;i++) progressData[i] = { js: false, design: false, project: false };
-      saveProgress();
-      updateAllUI();
-    }
-  }
+        document.getElementById('frontendProgressFill').style.width = `${(totals.frontend/90)*100}%`;
+        document.getElementById('backendProgressFill').style.width = `${(totals.backend/90)*100}%`;
+        document.getElementById('databaseProgressFill').style.width = `${(totals.database/90)*100}%`;
+        document.getElementById('designProgressFill').style.width = `${(totals.design/90)*100}%`;
+        document.getElementById('integrationProgressFill').style.width = `${(totals.integration/90)*100}%`;
+        document.getElementById('frontendCountText').innerText = `${totals.frontend}/90`;
+        document.getElementById('backendCountText').innerText = `${totals.backend}/90`;
+        document.getElementById('databaseCountText').innerText = `${totals.database}/90`;
+        document.getElementById('designCountText').innerText = `${totals.design}/90`;
+        document.getElementById('integrationCountText').innerText = `${totals.integration}/90`;
 
-  document.getElementById("prevDayBtn").onclick = () => { currentDay = currentDay > 1 ? currentDay-1 : 60; renderCurrentDay(); renderCalendar(); };
-  document.getElementById("nextDayBtn").onclick = () => { currentDay = currentDay < 60 ? currentDay+1 : 1; renderCurrentDay(); renderCalendar(); };
-  document.getElementById("resetProgressBtn").onclick = resetAllProgress;
-  document.getElementById("goTodayBtn").onclick = () => { currentDay = getTodayBasedDay(); renderCurrentDay(); renderCalendar(); };
-  document.getElementById("startDateInput").addEventListener("change", () => { updateStartDateFromInput(); currentDay = getTodayBasedDay(); renderCurrentDay(); renderCalendar(); });
+        // Today progress
+        const today = progressData[currentDay] || {};
+        const doneToday = ['frontend','backend','database','design','integration'].filter(t => today[t] && today[t].done).length;
+        document.getElementById('todayProgressDisplay').innerText = `${doneToday}/5`;
 
-  loadProgress(); initStartDate(); currentDay = getTodayBasedDay(); renderCurrentDay(); updateStatsAndCalendar();
+        // Streak
+        let streak = 0;
+        for (let d = currentDay; d >= 1; d--) {
+          const p = progressData[d];
+          if (p && p.frontend && p.frontend.done && p.backend && p.backend.done && p.database && p.database.done && p.design && p.design.done && p.integration && p.integration.done) {
+            streak++;
+          } else {
+            break;
+          }
+        }
+        document.getElementById('streakDisplay').innerText = streak;
 
-  // ========== PWA: register physical service worker ==========
-  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js")
-        .then(reg => console.log("✅ Service Worker registered", reg))
-        .catch(err => console.error("❌ SW registration failed", err));
-    });
-  } else {
-    console.log("⚠️ PWA requires HTTPS or localhost. Install from a hosted URL.");
-  }
+        // Total
+        document.getElementById('totalProgressDisplay').innerText = `${totalPercent}%`;
 
-  // Install button (beforeinstallprompt)
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    const btn = document.getElementById("installAppBtn");
-    btn.onclick = () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => deferredPrompt = null);
+        // Mastery
+        let totalDiff = 0, countDiff = 0;
+        for (let d = 1; d <= 90; d++) {
+          const p = progressData[d];
+          if (p) {
+            ['frontend','backend','database','design','integration'].forEach(t => {
+              if (p[t] && p[t].done) {
+                totalDiff += p[t].difficulty;
+                countDiff++;
+              }
+            });
+          }
+        }
+        const avgDiff = countDiff > 0 ? totalDiff / countDiff : 1;
+        const mastery = Math.min(100, Math.round((avgDiff / 5) * 100));
+        document.getElementById('masteryDisplay').innerText = `${mastery}%`;
+
+        renderCalendar();
       }
-    };
-  });
 
-  // Fallback if beforeinstallprompt never fires
-  if (!deferredPrompt) {
-    document.getElementById("installAppBtn").onclick = () => {
-      alert("To install: use browser menu → 'Install app' / 'Add to Home Screen'.\nFor best results, open from HTTPS (GitHub Pages, Netlify, Vercel).");
-    };
-  }
-</script>
+      function renderCalendar() {
+        const grid = document.getElementById('calendarGrid');
+        grid.innerHTML = '';
+        for (let d = 1; d <= 90; d++) {
+          const p = progressData[d] || {};
+          const doneCount = ['frontend','backend','database','design','integration'].filter(t => p[t] && p[t].done).length;
+          const isActive = (currentDay === d);
+          const isSunday = (d % 7 === 0);
+          const cell = document.createElement('div');
+          cell.className = `day-cell ${isActive ? 'active-day' : ''} ${isSunday ? 'sunday-cell' : ''}`;
+          cell.innerHTML = `<div><strong>${d}</strong><br><span style="font-size:9px;">${CURRICULUM[d-1].weekdayName.slice(0,3)}</span></div>
+                            <div class="day-dots">
+                              <i class="${doneCount >= 1 ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
+                              <i class="${doneCount >= 3 ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
+                              <i class="${doneCount >= 5 ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
+                              ${isSunday ? `<span style="font-size:0.55rem;color:#10B981;">⛺</span>` : ''}
+                            </div>`;
+          cell.addEventListener('click', (function(dayNum) { return function() { currentDay = dayNum; renderCurrentDay(); }; })(d));
+          grid.appendChild(cell);
+        }
+      }
+
+      // ================================================================
+      //  RECOMMENDATION ENGINE
+      // ================================================================
+      function getRecommendation() {
+        const tracks = ['frontend', 'backend', 'database', 'design', 'integration'];
+        let scores = {};
+        tracks.forEach(t => scores[t] = 0);
+        const lookback = Math.min(7, currentDay - 1);
+        for (let d = currentDay - lookback; d < currentDay; d++) {
+          if (d < 1) continue;
+          const p = progressData[d];
+          if (p) {
+            tracks.forEach(t => {
+              if (p[t] && p[t].done) scores[t]++;
+            });
+          }
+        }
+        let minTrack = 'frontend';
+        let minVal = Infinity;
+        tracks.forEach(t => {
+          if (scores[t] < minVal) {
+            minVal = scores[t];
+            minTrack = t;
+          }
+        });
+        return minTrack;
+      }
+
+      // ================================================================
+      //  CHART
+      // ================================================================
+      function renderChart() {
+        const container = document.getElementById('chartBars');
+        container.innerHTML = '';
+        const start = Math.max(1, currentDay - 9);
+        const end = currentDay;
+        for (let d = start; d <= end; d++) {
+          const p = progressData[d] || {};
+          const done = ['frontend','backend','database','design','integration'].filter(t => p[t] && p[t].done).length;
+          const pct = Math.round((done / 5) * 100);
+          const row = document.createElement('div');
+          row.className = 'chart-row';
+          row.innerHTML = `
+            <span class="chart-label">${d}</span>
+            <div class="chart-bar-bg"><div class="chart-bar-fill" style="width: ${pct}%;"></div></div>
+            <span class="chart-value">${pct}%</span>
+          `;
+          container.appendChild(row);
+        }
+      }
+
+      // ================================================================
+      //  CONFETTI
+      // ================================================================
+      function fireConfetti() {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'confetti-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '99999';
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const pieces = [];
+        const colors = ['#FFD966', '#10B981', '#3B82F6', '#EF4444', '#A855F7', '#F59E0B'];
+        for (let i = 0; i < 120; i++) {
+          pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            w: 6 + Math.random() * 8,
+            h: 4 + Math.random() * 6,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            vy: 2 + Math.random() * 4,
+            vx: (Math.random() - 0.5) * 2,
+            rot: Math.random() * 360,
+            rv: (Math.random() - 0.5) * 4
+          });
+        }
+        let frame = 0;
+        const maxFrames = 120;
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let alive = false;
+          for (const p of pieces) {
+            p.y += p.vy;
+            p.x += p.vx;
+            p.rot += p.rv;
+            if (p.y < canvas.height + 50) {
+              alive = true;
+              ctx.save();
+              ctx.translate(p.x, p.y);
+              ctx.rotate((p.rot * Math.PI) / 180);
+              ctx.fillStyle = p.color;
+              ctx.shadowColor = p.color;
+              ctx.shadowBlur = 10;
+              ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+              ctx.restore();
+            }
+          }
+          frame++;
+          if (alive && frame < maxFrames) requestAnimationFrame(animate);
+          else { canvas.remove(); }
+        }
+        animate();
+      }
+
+      // ================================================================
+      //  NOTIFICATIONS
+      // ================================================================
+      function requestNotificationPermission() {
+        if ('Notification' in window) {
+          Notification.requestPermission().then(perm => {
+            if (perm === 'granted') alert('✅ Notifications enabled! You\'ll get daily reminders.');
+            else alert('⚠️ Notifications blocked. You can enable them in browser settings.');
+          });
+        } else {
+          alert('⚠️ Notifications not supported by this browser.');
+        }
+      }
+
+      function sendDailyReminder() {
+        if (Notification.permission === 'granted') {
+          const today = progressData[currentDay];
+          const done = today && ['frontend','backend','database','design','integration'].every(t => today[t] && today[t].done);
+          if (!done) {
+            const rec = getRecommendation();
+            new Notification('⏰ SAMKRAN: Time to learn!', {
+              body: 'Day ' + currentDay + ' tasks are waiting. Focus on ' + rec + '!',
+              icon: './icons/logo-192.png'
+            });
+          }
+        }
+      }
+
+      // ================================================================
+      //  BULK ACTIONS
+      // ================================================================
+      function markAllDoneToday() {
+        const day = currentDay;
+        ['frontend','backend','database','design','integration'].forEach(t => {
+          setTrackDone(day, t, true);
+        });
+      }
+
+      function resetToday() {
+        const day = currentDay;
+        if (confirm('Reset all tasks for Day ' + day + '?')) {
+          ['frontend','backend','database','design','integration'].forEach(t => {
+            if (progressData[day] && progressData[day][t]) {
+              progressData[day][t].done = false;
+              progressData[day][t].difficulty = 2;
+            }
+          });
+          progressData[day].testTaken = false;
+          progressData[day].testScore = 0;
+          saveProgress();
+          updateAllUI();
+        }
+      }
+
+      function resetAllProgress() {
+        if (confirm('⚠️ RESET entire 90‑day progress? This cannot be undone.')) {
+          for (let i = 1; i <= 90; i++) {
+            progressData[i] = {
+              frontend: { done: false, difficulty: 2 },
+              backend: { done: false, difficulty: 2 },
+              database: { done: false, difficulty: 2 },
+              design: { done: false, difficulty: 2 },
+              integration: { done: false, difficulty: 2 },
+              testScore: 0,
+              testTaken: false,
+            };
+          }
+          saveProgress();
+          updateAllUI();
+        }
+      }
+
+      function updateAllUI() { renderCurrentDay(); }
+
+      // ================================================================
+      //  DATE LOGIC
+      // ================================================================
+      function initStartDate() {
+        const stored = localStorage.getItem("samkran_start_gold_90_v7");
+        if (stored) startDate = new Date(stored);
+        else { startDate = new Date(); startDate.setHours(0,0,0,0); }
+        document.getElementById('startDateInput').valueAsDate = startDate;
+      }
+      function updateStartDateFromInput() {
+        const val = document.getElementById('startDateInput').value;
+        if (val) {
+          startDate = new Date(val);
+          startDate.setHours(0,0,0,0);
+          localStorage.setItem("samkran_start_gold_90_v7", startDate.toISOString());
+        }
+      }
+      function getTodayBasedDay() {
+        if (!startDate) return 1;
+        const today = new Date(); today.setHours(0,0,0,0);
+        const diff = Math.floor((today - startDate) / 86400000);
+        let day = diff + 1;
+        if (day < 1) day = 1;
+        if (day > 90) day = 90;
+        return day;
+      }
+
+      // ================================================================
+      //  EVENT BINDINGS
+      // ================================================================
+      // 1. Checkbox changes (event delegation)
+      document.getElementById('trackContainer').addEventListener('change', function(e) {
+        if (e.target.matches('input[type="checkbox"]')) {
+          const track = e.target.dataset.track;
+          if (track) {
+            const day = currentDay;
+            setTrackDone(day, track, e.target.checked);
+          }
+        }
+      });
+
+      // 2. Navigation
+      document.getElementById('prevDayBtn').onclick = () => {
+        currentDay = currentDay > 1 ? currentDay-1 : 90;
+        renderCurrentDay();
+      };
+      document.getElementById('nextDayBtn').onclick = () => {
+        currentDay = currentDay < 90 ? currentDay+1 : 1;
+        renderCurrentDay();
+      };
+      document.getElementById('goTodayBtn').onclick = () => {
+        currentDay = getTodayBasedDay();
+        renderCurrentDay();
+      };
+      document.getElementById('startDateInput').addEventListener('change', () => {
+        updateStartDateFromInput();
+        currentDay = getTodayBasedDay();
+        renderCurrentDay();
+      });
+
+      // 3. Bulk actions
+      document.getElementById('markAllDoneBtn').onclick = markAllDoneToday;
+      document.getElementById('resetTodayBtn').onclick = resetToday;
+      document.getElementById('resetProgressBtn').onclick = resetAllProgress;
+
+      // 4. Notifications
+      document.getElementById('enableNotificationsBtn').onclick = requestNotificationPermission;
+
+      // 5. Test button
+      document.getElementById('takeTestBtn').onclick = () => {
+        if (progressData[currentDay] && progressData[currentDay].testTaken) {
+          alert('You already took today\'s test. Score: ' + progressData[currentDay].testScore + '/3');
+        } else {
+          openTestModal(currentDay);
+        }
+      };
+
+      // ================================================================
+      //  INIT
+      // ================================================================
+      loadProgress();
+      initStartDate();
+      currentDay = getTodayBasedDay();
+      renderCurrentDay();
+
+      // ================================================================
+      //  DAILY REMINDER (check every 30 min)
+      // ================================================================
+      setInterval(() => {
+        const now = new Date();
+        if (now.getHours() === 9 && now.getMinutes() === 0) sendDailyReminder();
+        if (now.getHours() === 14 && now.getMinutes() === 0) sendDailyReminder();
+      }, 60000);
+
+      // ================================================================
+      //  PWA
+      // ================================================================
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('✅ Service Worker registered', reg))
+            .catch(err => console.error('❌ SW registration failed', err));
+        });
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const btn = document.getElementById('installAppBtn');
+        btn.onclick = () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => deferredPrompt = null);
+          }
+        };
+      });
+
+      if (!deferredPrompt) {
+        document.getElementById('installAppBtn').onclick = () => {
+          alert('To install: use browser menu → "Install app" / "Add to Home Screen". HTTPS required.');
+        };
+      }
+
+      console.log('🧠 SAMKRAN v7 – fully functional state engine loaded.');
+
+    }); // end DOMContentLoaded
+  </script>
 </body>
 </html>
